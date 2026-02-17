@@ -1,75 +1,44 @@
 # AI Governance MCP Server
 
-A Model Context Protocol (MCP) server that gives any AI assistant — Claude, ChatGPT, Gemini, Copilot, or any MCP-compatible client — real-time access to AI governance laws, regulations, and policy frameworks from around the world.
+A Model Context Protocol (MCP) server that gives any AI assistant real-time access to AI governance laws, regulations, and policy frameworks from around the world.
 
-Works as a **coded MCP server** (run locally via CLI) or as a **connector** in platforms that support MCP integrations.
+Compatible with **Claude, ChatGPT, Gemini, Copilot, Cursor, Windsurf**, and any MCP-compatible client. Runs locally (stdio) or as a hosted server (HTTP/SSE).
+
+---
 
 ## Add This MCP Server
 
-**Server URL:**
-```
-https://github.com/Winnersammy/ai-governance-mcp
-```
-
-**Quick install (one-liner):**
-
-| Platform | Command |
-|----------|---------|
-| Claude Code | `claude mcp add ai-governance node /path/to/ai-governance-mcp/src/index.js` |
-| Claude Desktop | Add to `claude_desktop_config.json` ([see config below](#claude-desktop)) |
-| Cursor | Add to `.cursor/mcp.json` ([see config below](#cursor)) |
-| Windsurf | Add to `mcp_config.json` ([see config below](#windsurf)) |
-| OpenAI / ChatGPT | Use an MCP bridge ([see setup below](#openai-chatgpt--assistants-api)) |
-| Any MCP client | Spawn `node src/index.js` over stdio ([details below](#any-mcp-compatible-client)) |
+### Option A: Local (stdio) — Claude Desktop, Claude Code, Cursor, Windsurf
 
 ```bash
-# Clone and install
 git clone https://github.com/Winnersammy/ai-governance-mcp.git
 cd ai-governance-mcp
 npm install
 ```
 
-## Data Sources
+Then add to your platform's config (see [Platform Setup](#platform-setup) below).
 
-| Region | Source | What's Covered |
-|--------|--------|----------------|
-| EU | EUR-Lex API + RSS | EU AI Act, GDPR, AI regulations |
-| US | Federal Register API, GovInfo | Executive orders, federal agency rules, AI bills |
-| Global | OECD, G7, UNESCO, UN | International frameworks and principles |
-| News | Stanford HAI, AI Now, FLI | Research & policy news |
-
-## Available Tools
-
-| Tool | Description |
-|------|-------------|
-| `search_ai_governance` | Full-text search across all databases |
-| `get_latest_ai_governance_updates` | Latest updates from RSS feeds |
-| `get_key_ai_governance_documents` | Curated list of landmark documents |
-| `get_eu_ai_act_info` | EU AI Act deep dive with topic search |
-| `get_us_ai_policy` | US policy landscape with Federal Register search |
-| `get_global_ai_frameworks` | OECD, G7, UN, UNESCO, Bletchley and more |
-| `fetch_governance_document` | Fetch and extract text from any document URL |
-| `compare_ai_governance_frameworks` | Side-by-side comparison on a specific topic |
-
-## Testing
+### Option B: Remote (HTTP/SSE) — OpenAI, ChatGPT, platform connectors, team use
 
 ```bash
-npm test
+git clone https://github.com/Winnersammy/ai-governance-mcp.git
+cd ai-governance-mcp
+npm install
+npm run start:sse
 ```
 
-## Running the Server
-
-```bash
-npm start
-# or directly:
-node src/index.js
+Server URL (local):
+```
+http://localhost:3100/sse
 ```
 
-The server communicates over **stdio** using the standard [Model Context Protocol](https://modelcontextprotocol.io), making it compatible with any MCP client.
+Health check: `http://localhost:3100/health`
+
+Deploy to any hosting provider (Railway, Render, Fly.io, etc.) and use that URL instead.
 
 ---
 
-## Setup by Platform
+## Platform Setup
 
 ### Claude Desktop
 
@@ -90,31 +59,17 @@ Config file locations:
 - **macOS:** `~/Library/Application Support/Claude/claude_desktop_config.json`
 - **Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
 
+**Important:** Restart Claude Desktop after editing the config.
+
 ### Claude Code (CLI)
 
 ```bash
 claude mcp add ai-governance node /absolute/path/to/ai-governance-mcp/src/index.js
 ```
 
-### OpenAI (ChatGPT / Assistants API)
-
-OpenAI supports MCP tool servers. To connect:
-
-1. Run the server locally or deploy it (see [Deployment](#deployment) below)
-2. Use an **MCP-to-HTTP bridge** (e.g. [mcp-proxy](https://github.com/nicholasgasior/mcp-proxy), [supergateway](https://github.com/nicholasgasior/supergateway)) to expose the stdio server over HTTP/SSE
-3. Register the tools in your OpenAI Assistants or GPT configuration using the bridge URL
-
-Example with a bridge:
-```bash
-# Expose the MCP server over SSE (Server-Sent Events)
-npx supergateway --stdio "node /absolute/path/to/ai-governance-mcp/src/index.js" --port 3100
-```
-
-Then point your OpenAI integration to `http://localhost:3100`.
-
 ### Cursor
 
-Add to your Cursor MCP config (`.cursor/mcp.json` in your project or `~/.cursor/mcp.json` globally):
+Add to `.cursor/mcp.json` (project) or `~/.cursor/mcp.json` (global):
 
 ```json
 {
@@ -129,7 +84,7 @@ Add to your Cursor MCP config (`.cursor/mcp.json` in your project or `~/.cursor/
 
 ### Windsurf
 
-Add to your Windsurf MCP config (`~/.codeium/windsurf/mcp_config.json`):
+Add to `~/.codeium/windsurf/mcp_config.json`:
 
 ```json
 {
@@ -142,44 +97,59 @@ Add to your Windsurf MCP config (`~/.codeium/windsurf/mcp_config.json`):
 }
 ```
 
+### OpenAI / ChatGPT / Assistants API
+
+OpenAI requires a remote URL. Start the server in HTTP/SSE mode:
+
+```bash
+npm run start:sse
+# or: PORT=3100 node src/index.js
+```
+
+Then use this as your MCP server endpoint:
+```
+http://localhost:3100/sse
+```
+
+For production, deploy the server and use the deployed URL.
+
 ### Any MCP-Compatible Client
 
-This server uses **stdio transport** — the standard MCP transport. Any client that supports the Model Context Protocol can connect by spawning:
-
+**stdio mode** (default):
 ```bash
 node /absolute/path/to/ai-governance-mcp/src/index.js
 ```
+Communicate over stdin/stdout using the MCP JSON-RPC protocol.
 
-and communicating over stdin/stdout using the MCP JSON-RPC protocol.
-
----
-
-## Using as a Connector / Integration
-
-If your platform supports MCP connectors (plug-and-play integrations), you can register this server as a connector:
-
-1. **Hosted/managed platforms** — Deploy this server (see below), then add the HTTP/SSE endpoint as a tool connector in your platform's settings
-2. **No-code platforms** — Use an MCP bridge to expose the tools as HTTP endpoints, then connect via your platform's API/webhook integration
-3. **Custom agents** — Import the tools programmatically using the `@modelcontextprotocol/sdk` client library
-
----
-
-## Deployment
-
-To make the server accessible remotely (for OpenAI, team use, or platform connectors):
-
+**HTTP/SSE mode**:
 ```bash
-# Option 1: SSE bridge (lightweight)
-npx supergateway --stdio "node src/index.js" --port 3100
-
-# Option 2: Docker
-docker build -t ai-governance-mcp .
-docker run -p 3100:3100 ai-governance-mcp
+PORT=3100 node /absolute/path/to/ai-governance-mcp/src/index.js
 ```
-
-You can deploy to any hosting provider (Railway, Render, Fly.io, AWS, etc.) and share the endpoint.
+Connect to `http://localhost:3100/sse` using the MCP SSE transport.
 
 ---
+
+## Available Tools
+
+| Tool | Description |
+|------|-------------|
+| `search_ai_governance` | Full-text search across all databases |
+| `get_latest_ai_governance_updates` | Latest updates from RSS feeds |
+| `get_key_ai_governance_documents` | Curated list of landmark documents |
+| `get_eu_ai_act_info` | EU AI Act deep dive with topic search |
+| `get_us_ai_policy` | US policy landscape with Federal Register search |
+| `get_global_ai_frameworks` | OECD, G7, UN, UNESCO, Bletchley and more |
+| `fetch_governance_document` | Fetch and extract text from any document URL |
+| `compare_ai_governance_frameworks` | Side-by-side comparison on a specific topic |
+
+## Data Sources
+
+| Region | Source | What's Covered |
+|--------|--------|----------------|
+| EU | EUR-Lex API + RSS | EU AI Act, GDPR, AI regulations |
+| US | Federal Register API, GovInfo | Executive orders, federal agency rules, AI bills |
+| Global | OECD, G7, UNESCO, UN | International frameworks and principles |
+| News | Stanford HAI, AI Now, FLI | Research & policy news |
 
 ## Example Prompts
 
@@ -192,11 +162,17 @@ Once connected to any AI assistant, you can ask:
 - *"Fetch the NIST AI Risk Management Framework"*
 - *"What US executive orders on AI are currently active?"*
 
+## Testing
+
+```bash
+npm test
+```
+
 ## Architecture
 
 ```
 src/
-├── index.js      — MCP server + all 8 tool definitions
+├── index.js      — MCP server (stdio + HTTP/SSE) with 8 tool definitions
 ├── fetcher.js    — Data fetching (EUR-Lex, Fed Register, RSS, scraping)
 └── sources.js    — Source configuration (URLs, key docs, feeds)
 

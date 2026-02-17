@@ -6,6 +6,8 @@
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
+import { SSEServerTransport } from "@modelcontextprotocol/sdk/server/sse.js";
+import express from "express";
 import { z } from "zod";
 import {
   globalSearch,
@@ -418,6 +420,49 @@ This topic spans multiple AI governance frameworks. Here's what each major frame
 );
 
 // ─── Start server ───────────────────────────────────────────────
-const transport = new StdioServerTransport();
-await server.connect(transport);
-console.error("AI Governance MCP Server running on stdio");
+const port = process.env.PORT || process.argv.find((a) => a.startsWith("--port="))?.split("=")[1];
+
+if (port) {
+  // HTTP/SSE mode — for remote connections, OpenAI, platform connectors
+  const app = express();
+
+  // CORS for cross-origin clients
+  app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    if (req.method === "OPTIONS") return res.sendStatus(204);
+    next();
+  });
+
+  // Store active transports by session
+  const transports = {};
+
+  app.get("/sse", async (req, res) => {
+    const transport = new SSEServerTransport("/messages", res);
+    transports[transport.sessionId] = transport;
+    res.on("close", () => delete transports[transport.sessionId]);
+    await server.connect(transport);
+  });
+
+  app.post("/messages", async (req, res) => {
+    const sessionId = req.query.sessionId;
+    const transport = transports[sessionId];
+    if (!transport) return res.status(400).json({ error: "Unknown session" });
+    await transport.handlePostMessage(req, res);
+  });
+
+  // Health check
+  app.get("/health", (req, res) => res.json({ status: "ok", server: "ai-governance-mcp", version: "1.0.0" }));
+
+  app.listen(Number(port), () => {
+    console.error(`AI Governance MCP Server running on http://localhost:${port}`);
+    console.error(`  SSE endpoint:  http://localhost:${port}/sse`);
+    console.error(`  Health check:  http://localhost:${port}/health`);
+  });
+} else {
+  // stdio mode — for Claude Desktop, Claude Code, Cursor, Windsurf, etc.
+  const transport = new StdioServerTransport();
+  await server.connect(transport);
+  console.error("AI Governance MCP Server running on stdio");
+}

@@ -9,14 +9,27 @@
   },
   "scripts": {
     "start": "node src/index.js",
+    "start:sse": "PORT=3100 node src/index.js",
     "test": "node test/client.js"
   },
-  "keywords": ["mcp", "ai-governance", "regulations", "eu-ai-act", "openai", "chatgpt", "claude", "model-context-protocol", "ai-policy", "connector"],
+  "keywords": [
+    "mcp",
+    "ai-governance",
+    "regulations",
+    "eu-ai-act",
+    "openai",
+    "chatgpt",
+    "claude",
+    "model-context-protocol",
+    "ai-policy",
+    "connector"
+  ],
   "license": "MIT",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.26.0",
     "axios": "^1.7.9",
     "cheerio": "^1.0.0",
+    "express": "^5.2.1",
     "node-html-parser": "^7.0.2",
     "rss-parser": "^3.13.0"
   }
