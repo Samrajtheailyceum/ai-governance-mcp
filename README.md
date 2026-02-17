@@ -6,6 +6,16 @@ Compatible with **Claude, ChatGPT, Gemini, Copilot, Cursor, Windsurf**, and any 
 
 **GitHub:** `https://github.com/Samrajtheailyceum/ai-governance-mcp`
 
+### Use the Hosted Server (no setup needed)
+
+Connect any MCP-compatible client to the live public server:
+
+```
+https://ai-governance-mcp.loca.lt/sse
+```
+
+Health check: `https://ai-governance-mcp.loca.lt/health`
+
 ### Deploy Your Own (one click)
 
 [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/Samrajtheailyceum/ai-governance-mcp)
