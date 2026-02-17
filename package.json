@@ -11,7 +11,7 @@
     "start": "node src/index.js",
     "test": "node test/client.js"
   },
-  "keywords": ["mcp", "ai-governance", "regulations", "eu-ai-act"],
+  "keywords": ["mcp", "ai-governance", "regulations", "eu-ai-act", "openai", "chatgpt", "claude", "model-context-protocol", "ai-policy", "connector"],
   "license": "MIT",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.26.0",
