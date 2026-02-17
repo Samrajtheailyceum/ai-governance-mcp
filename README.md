@@ -1,5 +1,9 @@
 # AI Governance MCP Server
 
+<p align="center">
+  <img src="clawd.svg" alt="Gov'd — AI Governance MCP mascot" width="200" />
+</p>
+
 A Model Context Protocol (MCP) server that gives any AI assistant real-time access to AI governance laws, regulations, and policy frameworks from around the world.
 
 Compatible with **Claude, ChatGPT, Gemini, Copilot, Cursor, Windsurf**, and any MCP-compatible client. Runs locally (stdio) or as a hosted server (HTTP/SSE).

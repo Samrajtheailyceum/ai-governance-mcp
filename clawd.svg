@@ -1,0 +1,168 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" width="400" height="500">
+
+  <!-- Background — same warm cream as Clawd -->
+  <rect width="400" height="500" fill="#F0EBE3"/>
+
+  <!-- 
+    Pixel grid unit = 20px
+    Character centered around x=200, body starts y=80
+    Drawing a pixel-art "governance bot" in Clawd's terracotta color
+    with a tiny shield/gavel motif — same chunky pixel style
+  -->
+
+  <g fill="#C8593A">
+
+    <!-- ======= HEAD / BODY BLOCK ======= -->
+    <!-- Main body: 8w x 6h blocks = 160 x 120px, centered at 200 -->
+    <!-- Body rows: x from 120 to 280, y from 120 to 240 -->
+
+    <!-- Antenna left -->
+    <rect x="140" y="60"  width="20" height="20"/>
+    <rect x="140" y="80"  width="20" height="20"/>
+    <!-- Antenna right -->
+    <rect x="240" y="60"  width="20" height="20"/>
+    <rect x="240" y="80"  width="20" height="20"/>
+
+    <!-- Head row 1 -->
+    <rect x="140" y="100" width="20" height="20"/>
+    <rect x="160" y="100" width="20" height="20"/>
+    <rect x="180" y="100" width="20" height="20"/>
+    <rect x="200" y="100" width="20" height="20"/>
+    <rect x="220" y="100" width="20" height="20"/>
+    <rect x="240" y="100" width="20" height="20"/>
+
+    <!-- Head row 2 -->
+    <rect x="120" y="120" width="20" height="20"/>
+    <rect x="140" y="120" width="20" height="20"/>
+    <rect x="160" y="120" width="20" height="20"/>
+    <rect x="180" y="120" width="20" height="20"/>
+    <rect x="200" y="120" width="20" height="20"/>
+    <rect x="220" y="120" width="20" height="20"/>
+    <rect x="240" y="120" width="20" height="20"/>
+    <rect x="260" y="120" width="20" height="20"/>
+
+    <!-- Head row 3 (eyes row - leave gaps) -->
+    <rect x="120" y="140" width="20" height="20"/>
+    <rect x="140" y="140" width="20" height="20"/>
+    <!-- eye gap at 160 -->
+    <rect x="180" y="140" width="20" height="20"/>
+    <rect x="200" y="140" width="20" height="20"/>
+    <!-- eye gap at 220 -->
+    <rect x="240" y="140" width="20" height="20"/>
+    <rect x="260" y="140" width="20" height="20"/>
+
+    <!-- Head row 4 -->
+    <rect x="120" y="160" width="20" height="20"/>
+    <rect x="140" y="160" width="20" height="20"/>
+    <rect x="160" y="160" width="20" height="20"/>
+    <rect x="180" y="160" width="20" height="20"/>
+    <rect x="200" y="160" width="20" height="20"/>
+    <rect x="220" y="160" width="20" height="20"/>
+    <rect x="240" y="160" width="20" height="20"/>
+    <rect x="260" y="160" width="20" height="20"/>
+
+    <!-- Head row 5 (mouth row — tiny gap) -->
+    <rect x="120" y="180" width="20" height="20"/>
+    <rect x="140" y="180" width="20" height="20"/>
+    <rect x="160" y="180" width="20" height="20"/>
+    <!-- mouth gap at 180 & 200 -->
+    <rect x="220" y="180" width="20" height="20"/>
+    <rect x="240" y="180" width="20" height="20"/>
+    <rect x="260" y="180" width="20" height="20"/>
+
+    <!-- Body row 6 -->
+    <rect x="120" y="200" width="20" height="20"/>
+    <rect x="140" y="200" width="20" height="20"/>
+    <rect x="160" y="200" width="20" height="20"/>
+    <rect x="180" y="200" width="20" height="20"/>
+    <rect x="200" y="200" width="20" height="20"/>
+    <rect x="220" y="200" width="20" height="20"/>
+    <rect x="240" y="200" width="20" height="20"/>
+    <rect x="260" y="200" width="20" height="20"/>
+
+    <!-- Body row 7 -->
+    <rect x="120" y="220" width="20" height="20"/>
+    <rect x="140" y="220" width="20" height="20"/>
+    <rect x="160" y="220" width="20" height="20"/>
+    <rect x="180" y="220" width="20" height="20"/>
+    <rect x="200" y="220" width="20" height="20"/>
+    <rect x="220" y="220" width="20" height="20"/>
+    <rect x="240" y="220" width="20" height="20"/>
+    <rect x="260" y="220" width="20" height="20"/>
+
+    <!-- Arms left — sticking out -->
+    <rect x="80"  y="140" width="20" height="20"/>
+    <rect x="80"  y="160" width="20" height="20"/>
+    <rect x="80"  y="180" width="20" height="20"/>
+    <rect x="100" y="140" width="20" height="20"/>
+    <rect x="100" y="160" width="20" height="20"/>
+    <rect x="100" y="180" width="20" height="20"/>
+
+    <!-- Arms right -->
+    <rect x="280" y="140" width="20" height="20"/>
+    <rect x="280" y="160" width="20" height="20"/>
+    <rect x="280" y="180" width="20" height="20"/>
+    <rect x="300" y="140" width="20" height="20"/>
+    <rect x="300" y="160" width="20" height="20"/>
+    <rect x="300" y="180" width="20" height="20"/>
+
+    <!-- Left claw top -->
+    <rect x="60"  y="120" width="20" height="20"/>
+    <rect x="80"  y="120" width="20" height="20"/>
+    <!-- Left claw bottom -->
+    <rect x="60"  y="200" width="20" height="20"/>
+    <rect x="80"  y="200" width="20" height="20"/>
+
+    <!-- Right claw top -->
+    <rect x="300" y="120" width="20" height="20"/>
+    <rect x="320" y="120" width="20" height="20"/>
+    <!-- Right claw bottom -->
+    <rect x="300" y="200" width="20" height="20"/>
+    <rect x="320" y="200" width="20" height="20"/>
+
+    <!-- Legs — 4 legs, short pixel stubs -->
+    <!-- Leg 1 -->
+    <rect x="140" y="240" width="20" height="20"/>
+    <rect x="140" y="260" width="20" height="20"/>
+    <!-- Leg 2 -->
+    <rect x="180" y="240" width="20" height="20"/>
+    <rect x="180" y="260" width="20" height="20"/>
+    <!-- Leg 3 -->
+    <rect x="200" y="240" width="20" height="20"/>  
+    <rect x="200" y="260" width="20" height="20"/>
+    <!-- Leg 4 -->
+    <rect x="240" y="240" width="20" height="20"/>
+    <rect x="240" y="260" width="20" height="20"/>
+
+    <!-- Feet flares -->
+    <rect x="120" y="280" width="20" height="20"/>
+    <rect x="140" y="280" width="20" height="20"/>
+    <rect x="160" y="280" width="20" height="20"/>
+
+    <rect x="220" y="280" width="20" height="20"/>
+    <rect x="240" y="280" width="20" height="20"/>
+    <rect x="260" y="280" width="20" height="20"/>
+
+  </g>
+
+  <!-- Eyes — dark squares like Clawd -->
+  <rect x="160" y="140" width="20" height="20" fill="#1A0F0A"/>
+  <rect x="220" y="140" width="20" height="20" fill="#1A0F0A"/>
+
+  <!-- Tiny shield on body — white pixel art -->
+  <rect x="183" y="203" width="14" height="14" fill="white" opacity="0.9"/>
+  <rect x="197" y="203" width="14" height="14" fill="white" opacity="0.9"/>
+  <rect x="183" y="217" width="14" height="7"  fill="white" opacity="0.9"/>
+  <rect x="197" y="217" width="14" height="7"  fill="white" opacity="0.9"/>
+  <rect x="190" y="224" width="14" height="6"  fill="white" opacity="0.9"/>
+
+  <!-- Text -->
+  <text x="200" y="360"
+        font-family="'Courier New', Courier, monospace"
+        font-size="22"
+        font-weight="700"
+        fill="#2A1A12"
+        text-anchor="middle"
+        letter-spacing="1">Welcome, Gov'd</text>
+
+</svg>
