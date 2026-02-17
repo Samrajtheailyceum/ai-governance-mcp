@@ -4,6 +4,31 @@ A Model Context Protocol (MCP) server that gives any AI assistant — Claude, Ch
 
 Works as a **coded MCP server** (run locally via CLI) or as a **connector** in platforms that support MCP integrations.
 
+## Add This MCP Server
+
+**Server URL:**
+```
+https://github.com/Winnersammy/ai-governance-mcp
+```
+
+**Quick install (one-liner):**
+
+| Platform | Command |
+|----------|---------|
+| Claude Code | `claude mcp add ai-governance node /path/to/ai-governance-mcp/src/index.js` |
+| Claude Desktop | Add to `claude_desktop_config.json` ([see config below](#claude-desktop)) |
+| Cursor | Add to `.cursor/mcp.json` ([see config below](#cursor)) |
+| Windsurf | Add to `mcp_config.json` ([see config below](#windsurf)) |
+| OpenAI / ChatGPT | Use an MCP bridge ([see setup below](#openai-chatgpt--assistants-api)) |
+| Any MCP client | Spawn `node src/index.js` over stdio ([details below](#any-mcp-compatible-client)) |
+
+```bash
+# Clone and install
+git clone https://github.com/Winnersammy/ai-governance-mcp.git
+cd ai-governance-mcp
+npm install
+```
+
 ## Data Sources
 
 | Region | Source | What's Covered |
@@ -25,14 +50,6 @@ Works as a **coded MCP server** (run locally via CLI) or as a **connector** in p
 | `get_global_ai_frameworks` | OECD, G7, UN, UNESCO, Bletchley and more |
 | `fetch_governance_document` | Fetch and extract text from any document URL |
 | `compare_ai_governance_frameworks` | Side-by-side comparison on a specific topic |
-
-## Installation
-
-```bash
-git clone https://github.com/Winnersammy/ai-governance-mcp.git
-cd ai-governance-mcp
-npm install
-```
 
 ## Testing
 
