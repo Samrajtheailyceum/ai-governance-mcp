@@ -1,9 +1,11 @@
-import { createWriteStream } from 'node:fs';
+import { createWriteStream, mkdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const logFilePath = join(__dirname, 'logs.json');
+const logsDir = join(__dirname, '..', 'logs');
+mkdirSync(logsDir, { recursive: true });
+const logFilePath = join(logsDir, 'server.log');
 const stream = createWriteStream(logFilePath, { flags: 'a' });
 stream.on('error', (err) => console.error('[logger] Log write failed:', err));
 process.on('beforeExit', () => stream.end());
