@@ -538,6 +538,80 @@ ai-governance-mcp/
 └── package.json       — Dependencies and scripts
 ```
 
+### System Architecture Diagram
+
+```mermaid
+flowchart TB
+    subgraph Clients["AI Clients"]
+        C1["Claude Desktop / Code"]
+        C2["Cursor / Windsurf"]
+        C3["ChatGPT / OpenAI / Gemini"]
+        C4["Any MCP-compatible client"]
+    end
+
+    subgraph Transport["Transport Layer"]
+        T1["StdioServerTransport\n(local · stdio mode)"]
+        T2["SSEServerTransport\n(remote · HTTP mode)"]
+    end
+
+    subgraph HTTPServer["Express HTTP Server (SSE mode only)"]
+        H1["CORS Middleware"]
+        H2["/sse — open SSE connection"]
+        H3["/messages — receive tool calls"]
+        H4["/health — status check"]
+    end
+
+    subgraph MCPServer["McpServer (@modelcontextprotocol/sdk)"]
+        subgraph Tools["11 Tool Handlers · src/index.js"]
+            TL1["search_ai_governance"]
+            TL2["get_latest_ai_governance_updates"]
+            TL3["get_sustainability_ai_regulatory_briefing"]
+            TL4["get_applied_ai_governance_frameworks"]
+            TL5["get_key_ai_governance_documents"]
+            TL6["get_eu_ai_act_info"]
+            TL7["get_us_ai_policy"]
+            TL8["get_global_ai_frameworks"]
+            TL9["fetch_governance_document"]
+            TL10["compare_ai_governance_frameworks"]
+            TL11["submit_mcp_feedback"]
+        end
+    end
+
+    subgraph DataLayer["Data Layer · src/"]
+        F["fetcher.js\nglobalSearch · searchEurLex · searchFederalRegister\nfetchRSSUpdates · getKeyDocuments\nfetchDocumentContent · getAppliedFrameworkGuidance"]
+        SRC["sources.js\nSOURCES config · ALL_KEY_DOCS · ALL_RSS_FEEDS"]
+        CC["cache.js\nLRU Cache (500 entries · 30-min TTL)"]
+    end
+
+    subgraph External["External Data Sources"]
+        E1["EUR-Lex API + RSS\nEU AI Act · GDPR · CSRD · CSDDD"]
+        E2["Federal Register API + RSS\nExecutive Orders · Rules · Notices"]
+        E3["GovInfo API\nUS Bills · Congressional Records"]
+        E4["OECD · UNESCO · G7\nGlobal Frameworks"]
+        E5["News RSS Feeds\nStanford HAI · AI Now · FLI · ESG Today"]
+    end
+
+    C1 & C2 -->|stdio| T1
+    C3 & C4 -->|HTTP/SSE| T2
+
+    T1 --> MCPServer
+    T2 --> HTTPServer
+    H1 --> H2 & H3 & H4
+    HTTPServer --> MCPServer
+
+    MCPServer --> Tools
+    Tools --> F
+    F <-->|"cache read/write"| CC
+    F -->|"reads config"| SRC
+    SRC -.->|"embedded key docs\n(offline fallback)"| F
+
+    F -->|"API + RSS"| E1
+    F -->|"API + RSS"| E2
+    F -->|"API"| E3
+    F -->|"RSS"| E4
+    F -->|"RSS"| E5
+```
+
 ### How It Works
 
 1. **Client connects** via stdio (local) or SSE (remote)
