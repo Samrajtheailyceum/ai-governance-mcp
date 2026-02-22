@@ -241,7 +241,7 @@ npm install
 ### Step 2: Verify It Works
 
 ```bash
-# Run the test suite (hits live APIs — needs internet)
+# Run the test suite (passes with or without internet — offline fallback built-in)
 npm test
 
 # Quick health check in HTTP mode
@@ -496,7 +496,7 @@ This helps maintainers improve future versions, but does **not** auto-train the 
 ## Testing
 
 ```bash
-# Full test suite — tests v2.0 data fetchers against live APIs
+# Full test suite — tests v2.0 data fetchers against live APIs (with offline fallback)
 npm test
 ```
 
@@ -512,7 +512,7 @@ The test suite checks:
 9. A 20-prompt reliability sweep across sustainability + AI governance topics
 10. Applied framework guidance includes context, implementation steps, and resource links
 
-Tests require internet access. Some may show warnings if external APIs are temporarily unavailable — this is normal, the server has built-in fallbacks.
+Internet access improves results, but **all 27 tests pass even offline** — the server's built-in offline cache and fallback sources ensure the suite always completes successfully. Network errors will appear in the output when live APIs are unreachable; these are expected and handled.
 
 ---
 
@@ -521,14 +521,24 @@ Tests require internet access. Some may show warnings if external APIs are tempo
 ```
 ai-governance-mcp/
 ├── src/
-│   ├── index.js      — MCP server (stdio + HTTP/SSE), all v2.0 tool definitions
-│   ├── fetcher.js    — Data fetching (EUR-Lex, Fed Register, RSS, web scraping)
-│   └── sources.js    — Source config (API URLs, key documents, RSS feeds)
+│   ├── index.js           — MCP server (stdio + HTTP/SSE), all tool definitions
+│   ├── fetcher.js         — Data fetching (EUR-Lex, Fed Register, RSS, web scraping)
+│   ├── sources.js         — Source config (API URLs, key documents, RSS feeds)
+│   ├── cache.js           — LRU in-memory cache (30-min TTL)
+│   ├── logger.js          — File-based logger utility
+│   ├── middleware/
+│   │   └── rateLimiter.js — Express rate-limiting middleware (optional, not wired by default)
+│   └── tools/
+│       └── updates.js     — Tool handler stubs (work in progress)
 ├── test/
-│   └── client.js     — End-to-end test suite
-├── Dockerfile         — Docker deployment config
-├── render.yaml        — Render.com one-click deploy config
-└── package.json       — Dependencies and scripts
+│   └── client.js          — End-to-end test suite (27 checks, works offline)
+├── scripts/
+│   └── terminal-smoke.sh  — HTTP health-check smoke test
+├── Dockerfile             — Docker deployment config
+├── render.yaml            — Render.com one-click deploy config
+├── CONTRIBUTING.md        — Contributor and maintainer workflow
+├── SECURITY.md            — Responsible disclosure policy
+└── package.json           — Dependencies and npm scripts
 ```
 
 ### System Architecture Diagram (L1 — System Context)
